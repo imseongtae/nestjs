@@ -9,32 +9,36 @@ import {
   Query,
   // Put,
 } from '@nestjs/common';
+import { MoviesService } from './movies.service';
+import { Movie } from './entities/movie.entity';
 
 @Controller('movies')
 export class MoviesController {
+  constructor(private readonly moviesService: MoviesService) {}
+
   @Get()
-  getAll() {
-    return 'This will return all movies';
+  getAll(): Movie[] {
+    // return 'This will return all movies';
+    return this.moviesService.getAll();
   }
 
   // 파라미터에 전달하는 인자 id로 인식할 수 있으므로, @Get('/:id') 보다 위에 적는다.
-  @Get('search')
-  search(@Query('year') searchingYear: string) {
-    return `We are searching for a movie made after: ${searchingYear}`;
-  }
+  // @Get('search')
+  // search(@Query('year') searchingYear: string) {
+  //   return `We are searching for a movie made after: ${searchingYear}`;
+  // }
 
   // 무언가 필요하면 직접 요청해야 함(데코레이터를 통해)
-  @Get('/:id')
-  getOne(@Param('id') movieId: string) {
-    // 변수는 바꿀 수 있음
-    return `This will return one movie with the id: ${movieId}`;
+  // 변수는 바꿀 수 있음
+  @Get(':id')
+  getOne(@Param('id') movieId: number): Movie {
+    return this.moviesService.getOne(movieId);
   }
 
   @Post()
   create(@Body() movieData) {
-    console.log(movieData);
     // return 'This will create a movie';
-    return movieData;
+    return this.moviesService.create(movieData);
   }
 
   @Post('existing-user')
@@ -48,8 +52,9 @@ export class MoviesController {
   }
 
   @Delete('/:id')
-  delete(@Param('id') movieId: string) {
-    return `This will delete a movie with the id: ${movieId}`;
+  delete(@Param('id') movieId: number) {
+    // return `This will delete a movie with the id: ${movieId}`;
+    return this.moviesService.deleteOne(movieId);
   }
 
   // Put은 모든 리소스를 업데이트, Patch는 리소스의 일부분만 업데이트
