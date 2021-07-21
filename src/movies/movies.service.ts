@@ -29,11 +29,12 @@ export class MoviesService {
 
   deleteOne(id: number) {
     this.getOne(id);
-    this.movies = this.movies.filter(movie => movie.id !== id);
+    this.movies = this.movies.filter(movie => movie.id !== Number(id));
   }
 
+  // 데이터의 유효성을 검사하는 기능이 필요함
   update(id: number, updateData) {
-    const movie = this.movies.filter(movie => movie.id === Number(id));
+    const movie = this.getOne(id);
     this.deleteOne(id);
     this.movies.push({
       ...movie,
