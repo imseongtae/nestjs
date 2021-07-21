@@ -31,4 +31,13 @@ export class MoviesService {
     this.getOne(id);
     this.movies = this.movies.filter(movie => movie.id !== id);
   }
+
+  update(id: number, updateData) {
+    const movie = this.movies.filter(movie => movie.id === Number(id));
+    this.deleteOne(id);
+    this.movies.push({
+      ...movie,
+      ...updateData,
+    });
+  }
 }
