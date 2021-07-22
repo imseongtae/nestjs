@@ -6,11 +6,11 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   // Put,
 } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
+import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Controller('movies')
 export class MoviesController {
@@ -36,7 +36,7 @@ export class MoviesController {
   }
 
   @Post()
-  create(@Body() movieData) {
+  create(@Body() movieData: CreateMovieDto) {
     // return 'This will create a movie';
     return this.moviesService.create(movieData);
   }
